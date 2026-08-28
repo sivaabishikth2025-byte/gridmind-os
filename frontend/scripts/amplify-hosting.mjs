@@ -18,6 +18,10 @@ function copyDir(src, dest) {
   }
 }
 
+function rmDir(target) {
+  if (fs.existsSync(target)) fs.rmSync(target, { recursive: true, force: true });
+}
+
 fs.rmSync(hosting, { recursive: true, force: true });
 fs.mkdirSync(compute, { recursive: true });
 fs.mkdirSync(staticDir, { recursive: true });
@@ -27,12 +31,19 @@ const appDir = fs.existsSync(path.join(standaloneRoot, "frontend"))
   ? path.join(standaloneRoot, "frontend")
   : standaloneRoot;
 
+// Server bundle → compute/default
 copyDir(appDir, compute);
-copyDir(path.join(root, ".next", "static"), path.join(compute, ".next", "static"));
+
+// Static assets must live under .amplify-hosting/static (not inside compute)
+copyDir(path.join(root, ".next", "static"), path.join(staticDir, "_next", "static"));
 
 if (fs.existsSync(path.join(root, "public"))) {
-  copyDir(path.join(root, "public"), path.join(compute, "public"));
+  copyDir(path.join(root, "public"), staticDir);
 }
+
+// Remove duplicates from compute — Amplify serves these from static/
+rmDir(path.join(compute, ".next", "static"));
+rmDir(path.join(compute, "public"));
 
 const manifest = {
   version: 1,

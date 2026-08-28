@@ -1,7 +1,7 @@
 "use client";
 
 import { Radio, ExternalLink, Database } from "lucide-react";
-import type { LiveGridData } from "@/lib/live-data";
+import type { LiveGridData } from "../lib/live-data";
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from "recharts";
 
 const FUEL_COLORS: Record<string, string> = {

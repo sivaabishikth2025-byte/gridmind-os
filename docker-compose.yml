@@ -1,0 +1,44 @@
+services:
+  postgres:
+    image: timescale/timescaledb:latest-pg16
+    container_name: gridmind-postgres
+    environment:
+      POSTGRES_USER: gridmind
+      POSTGRES_PASSWORD: gridmind_secret
+      POSTGRES_DB: gridmind
+    ports:
+      - "5433:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U gridmind -d gridmind"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  redis:
+    image: redis:7-alpine
+    container_name: gridmind-redis
+    ports:
+      - "6380:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  mosquitto:
+    image: eclipse-mosquitto:2
+    container_name: gridmind-mqtt
+    ports:
+      - "1883:1883"
+      - "9001:9001"
+    volumes:
+      - ./mosquitto/config:/mosquitto/config
+      - mosquitto_data:/mosquitto/data
+      - mosquitto_log:/mosquitto/log
+
+volumes:
+  pgdata:
+  mosquitto_data:
+  mosquitto_log:

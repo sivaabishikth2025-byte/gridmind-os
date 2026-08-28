@@ -16,13 +16,13 @@ import {
   fetchAPI, fetchAPIWithFallback,
   SiteOverview, ForecastPoint, Anomaly, CarbonSummary,
   OptimizationResult, ClimateStress, Portfolio, ActivityItem, ESGReport, ExecutiveSummary,
-} from "@/lib/api";
+} from "../../lib/api";
 import {
   DEMO_PORTFOLIO, DEMO_ACTIVITY, DEMO_ESG, DEMO_EXECUTIVE, DEMO_VPP,
   DEMO_NOTIFICATIONS, DEMO_DIGITAL_TWIN,
-} from "@/lib/demo-data";
-import type { LiveGridData } from "@/lib/live-data";
-import { LiveDataBanner, DataSourcesPanel, FuelMixPanel, NYLoadChart } from "@/components/LiveDataPanel";
+} from "../../lib/demo-data";
+import type { LiveGridData } from "../../lib/live-data";
+import { LiveDataBanner, DataSourcesPanel, FuelMixPanel, NYLoadChart } from "../../components/LiveDataPanel";
 
 type Tab = "overview" | "portfolio" | "optimize" | "markets" | "climate" | "carbon" | "esg" | "twin";
 
